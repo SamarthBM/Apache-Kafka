@@ -7,11 +7,10 @@ from json import dumps
 from dotenv import load_dotenv
 load_dotenv('.env')
 
-TOPIC_NAME = 'StockData'
-KAFKA_SERVER = ['localhost:9092']
-producer = KafkaProducer(bootstrap_servers = KAFKA_SERVER, value_serializer=lambda K:dumps(K).encode('utf-8'))
+TOPIC_NAME = os.getenv('TOPIC_NAME')
+producer = KafkaProducer(value_serializer=lambda K:dumps(K).encode('utf-8'))
 
-key = os.getenv('API_KEY')
+key = os.getenv('API_KEY','BOOTSTRAP_SERVER')
 
 CSV_URL = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY_EXTENDED&symbol=IBM&interval=1min&slice=year1month1&apikey= key'
 
